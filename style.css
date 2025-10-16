@@ -1,0 +1,464 @@
+:root {
+  --blood: #8b0000;
+  --blood-dark: #410000;
+  --fog: rgba(150, 150, 150, 0.08);
+  --night: #030109;
+  --accent: #ff6b6b;
+  --ghastly: #d3f6ff;
+  --bone: #f5ede1;
+  --shadow: rgba(0, 0, 0, 0.7);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  font-family: "Special Elite", "Trebuchet MS", serif;
+  color: var(--bone);
+  background: radial-gradient(circle at 20% 20%, #15001d, var(--night) 60%);
+  overflow: hidden;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+body::before,
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background: repeating-linear-gradient(
+      0deg,
+      transparent 0,
+      transparent 2px,
+      rgba(0, 0, 0, 0.08) 3px
+    ),
+    repeating-linear-gradient(
+      90deg,
+      transparent 0,
+      transparent 2px,
+      rgba(0, 0, 0, 0.04) 3px
+    );
+  opacity: 0.08;
+  pointer-events: none;
+  z-index: 1;
+  mix-blend-mode: screen;
+}
+
+.hero {
+  padding: clamp(4rem, 6vw, 7rem) 10vw 5rem;
+  text-align: center;
+  position: relative;
+  isolation: isolate;
+}
+
+.hero::before {
+  content: "";
+  position: absolute;
+  inset: 8% 15% auto;
+  height: 2px;
+  background: repeating-linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0.1) 0,
+    rgba(255, 255, 255, 0.1) 6px,
+    transparent 7px,
+    transparent 13px
+  );
+  box-shadow: 0 0 25px rgba(255, 255, 255, 0.08);
+  opacity: 0.35;
+}
+
+.hero-title {
+  font-family: "Creepster", cursive;
+  font-size: clamp(3rem, 8vw, 8rem);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  line-height: 1.1;
+  margin: 4rem 0 0.6rem;
+  color: var(--bone);
+  text-shadow: 0 0 12px rgba(255, 0, 0, 0.6), 0 0 28px rgba(0, 0, 0, 0.95);
+}
+
+.hero-title span {
+  display: block;
+  margin-top: 1rem;
+}
+
+.glitch-text {
+  position: relative;
+  display: inline-flex;
+  justify-content: center;
+  color: var(--accent);
+  text-shadow: 2px 2px 0 var(--blood-dark), -2px -2px 0 rgba(255, 255, 255, 0.05);
+}
+
+.glitch-text::before,
+.glitch-text::after {
+  content: attr(data-shadow);
+  position: absolute;
+  inset: 0;
+  mix-blend-mode: screen;
+  opacity: 0.75;
+}
+
+.glitch-text::before {
+  transform: translate(-3px, -1px);
+  color: #48fffb;
+  clip-path: polygon(0 0, 100% 0, 100% 45%, 0 55%);
+}
+
+.glitch-text::after {
+  transform: translate(3px, 1px);
+  color: #ff1b6b;
+  clip-path: polygon(0 55%, 100% 45%, 100% 100%, 0 100%);
+}
+
+.glitching::before,
+.glitching::after {
+  animation: glitch 140ms infinite;
+}
+
+@keyframes glitch {
+  0%,
+  100% {
+    transform: translate(0);
+  }
+  20% {
+    transform: translate(4px, -2px);
+  }
+  40% {
+    transform: translate(-4px, 2px);
+  }
+  60% {
+    transform: translate(2px, -1px);
+  }
+  80% {
+    transform: translate(-2px, 1px);
+  }
+}
+
+.hero-subtitle {
+  max-width: 48rem;
+  margin: 1.5rem auto 3rem;
+  font-size: clamp(1.1rem, 2.3vw, 1.6rem);
+  color: rgba(245, 237, 225, 0.85);
+  line-height: 1.6;
+}
+
+.blood-drip {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 160px;
+  z-index: 5;
+  pointer-events: none;
+  filter: drop-shadow(0 15px 25px rgba(64, 0, 0, 0.6));
+}
+
+.blood-drip path {
+  fill: url(#bloodGradient);
+  stroke: rgba(50, 0, 0, 0.4);
+  stroke-width: 2;
+}
+
+.moon {
+  position: absolute;
+  right: 8vw;
+  top: 10vh;
+  width: clamp(80px, 12vw, 180px);
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: radial-gradient(circle at 30% 30%, #f9f1d5, #cdd0a2 60%, #888872);
+  box-shadow: 0 0 45px rgba(255, 255, 210, 0.35);
+  overflow: hidden;
+  animation: moonGlow 10s ease-in-out infinite alternate;
+  opacity: 0.85;
+  z-index: 15;
+}
+
+.moon::after {
+  content: "";
+  position: absolute;
+  inset: 15% 20% 55% 35%;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.25);
+}
+
+.moon img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+  z-index: 20;
+  cursor: pointer;
+}
+
+@keyframes moonGlow {
+  from {
+    box-shadow: 0 0 20px rgba(255, 255, 210, 0.25);
+  }
+  to {
+    box-shadow: 0 0 60px rgba(255, 255, 210, 0.45);
+  }
+}
+
+.ghost {
+  position: fixed;
+  top: 35vh;
+  width: clamp(90px, 16vw, 140px);
+  height: clamp(120px, 20vw, 180px);
+  background: radial-gradient(circle at 50% 25%, rgba(255, 255, 255, 0.9), rgba(210, 210, 255, 0.2));
+  border-radius: 50% 50% 40% 40%;
+  z-index: 4;
+  filter: drop-shadow(0 18px 25px rgba(150, 150, 255, 0.25));
+  animation: floaty 6s ease-in-out infinite;
+  opacity: 0.75;
+}
+
+.ghost::before,
+.ghost::after {
+  content: "";
+  position: absolute;
+  width: 20%;
+  height: 22%;
+  background: rgba(10, 10, 20, 0.75);
+  border-radius: 50%;
+  top: 30%;
+}
+
+.ghost::before {
+  left: 28%;
+}
+
+.ghost::after {
+  right: 28%;
+}
+
+.ghost::after {
+  box-shadow: 0 0 12px rgba(255, 255, 255, 0.2);
+}
+
+.ghost::after,
+.ghost::before {
+  transition: transform 0.3s ease;
+}
+
+.ghost:hover::before,
+.ghost:hover::after {
+  transform: scale(1.1);
+}
+
+.ghost .mouth {
+  position: absolute;
+  bottom: 10%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 40%;
+  height: 20%;
+  background: transparent;
+  border: 2px solid #fff;
+  border-radius: 50% 50% 0 0;
+  border-top: none;
+  opacity: 0;
+  transition: opacity 0.5s;
+}
+
+body.lightning .ghost .mouth {
+  opacity: 1;
+}
+
+.ghost-left {
+  left: 6vw;
+  animation-delay: -2s;
+}
+
+.ghost-right {
+  right: 7vw;
+  animation-delay: -4s;
+}
+
+@keyframes floaty {
+  0%,
+  100% {
+    transform: translateY(-12px);
+  }
+  50% {
+    transform: translateY(18px);
+  }
+}
+
+.bats {
+  position: fixed;
+  top: 18vh;
+  left: -10vw;
+  width: 120vw;
+  height: 35vh;
+  pointer-events: none;
+  z-index: 3;
+  opacity: 0.5;
+  animation: batsFlight 26s linear infinite;
+}
+
+@keyframes batsFlight {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-20vw);
+  }
+}
+
+.bat {
+  width: clamp(60px, 12vw, 160px);
+  height: auto;
+  fill: rgba(10, 0, 0, 0.8);
+  filter: drop-shadow(0 0 10px rgba(255, 0, 0, 0.2));
+  animation: flap 1.6s ease-in-out infinite;
+}
+
+.bat:nth-of-type(2) {
+  animation-delay: -0.6s;
+  transform-origin: 60% 55%;
+}
+
+.bat:nth-of-type(3) {
+  animation-delay: -1s;
+  transform-origin: 40% 45%;
+}
+
+@keyframes flap {
+  0%,
+  100% {
+    transform: translateY(0) scaleY(1);
+  }
+  50% {
+    transform: translateY(-8px) scaleY(0.85);
+  }
+}
+
+.blood-drop {
+  position: fixed;
+  top: -80px;
+  width: clamp(8px, 1vw, 13px);
+  height: 120px;
+  background: linear-gradient(180deg, rgba(255, 0, 0, 0.9), rgba(99, 0, 0, 0.7));
+  border-radius: 999px;
+  z-index: 6;
+  opacity: 0.8;
+  transform-origin: top center;
+  animation: drip 5s linear forwards;
+  filter: blur(0.4px);
+}
+
+.blood-drop::after {
+  content: "";
+  position: absolute;
+  bottom: -12px;
+  left: 50%;
+  width: 150%;
+  height: 150%;
+  background: radial-gradient(circle at 50% 50%, rgba(139, 0, 0, 0.8), transparent 65%);
+  transform: translateX(-50%);
+  opacity: 0;
+  animation: splatter 0.6s ease forwards;
+  animation-delay: 4.4s;
+}
+
+.moon .blood-drip-side {
+  position: absolute;
+  top: 30%;
+  width: 4px;
+  height: 60px;
+  background: linear-gradient(180deg, rgba(255, 0, 0, 0.9), rgba(99, 0, 0, 0.7));
+  border-radius: 50%;
+  opacity: 0.8;
+  transform-origin: top center;
+  animation: drip 4s linear infinite;
+  filter: blur(0.4px);
+}
+
+.moon .blood-drip-side.left {
+  left: 5%;
+  animation-delay: 0s;
+}
+
+.moon .blood-drip-side.right {
+  right: 5%;
+  animation-delay: 2s;
+}
+
+@keyframes drip {
+  0% {
+    transform: translateY(0) scaleY(0.5);
+    opacity: 0;
+  }
+  10% {
+    opacity: 0.9;
+  }
+  80% {
+    transform: translateY(calc(100vh - 160px)) scaleY(1);
+    opacity: 0.9;
+  }
+  100% {
+    transform: translateY(calc(100vh - 140px)) scaleY(0.8);
+    opacity: 0;
+  }
+}
+
+@keyframes splatter {
+  0% {
+    opacity: 0;
+    transform: translateX(-50%) scale(0.6);
+  }
+  40% {
+    opacity: 0.7;
+  }
+  100% {
+    opacity: 0;
+    transform: translateX(-50%) scale(1.5);
+  }
+}
+
+.lightning {
+  animation: flash 0.8s ease;
+}
+
+@keyframes flash {
+  0%,
+  100% {
+    filter: none;
+  }
+  10%,
+  15% {
+    filter: brightness(2) contrast(1.4) saturate(1.2);
+  }
+  12%,
+  18% {
+    filter: brightness(0.7);
+  }
+  50% {
+    filter: brightness(1.6);
+  }
+}
+
+@media (max-width: 720px) {
+  .hero {
+    padding-inline: clamp(1.5rem, 8vw, 3rem);
+  }
+
+  .hero-title {
+    letter-spacing: 0.08em;
+  }
+
+  .moon {
+    right: 4vw;
+    top: 6vh;
+  }
+}
